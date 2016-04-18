@@ -3,41 +3,55 @@
 namespace Eusebiu\LaravelSparkGoogle2FA;
 
 use Laravel\Spark\Spark;
+use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
 use Laravel\Spark\Http\Controllers\Settings\Security\TwoFactorAuthController as Controller;
 
 class TwoFactorAuthController extends Controller
 {
     /**
-     * Store the two-factor authentication information on the user instance.
+     * Generate the QR code for the user.
      *
-     * @param  \EnableTwoFactorAuthRequest $request
-     * @return string
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
      */
-    protected function storeTwoFactorInformation($request)
+    public function generateQrCode(Request $request)
     {
-        $code = parent::storeTwoFactorInformation($request);
+        $g2fa = new Google2FA;
 
-        return [
-            'code' => $code,
-            'qr' => $this->getQrCodeUrl($request->user()),
-        ];
+        session()->put('spark:twofactor:secret', $secret = $g2fa->generateSecretKey());
+
+        return $this->getQrUrl($request->user()->email, $secret);
     }
 
     /**
-     * Get the QR Code url for the given user.
+     * Enable two-factor authentication for the user.
      *
-     * @param  \Illuminate\Contracts\Auth\Authenticatable $user
+     * @param  \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function enableTwoFactor(Request $request)
+    {
+        $this->validate($request, [
+            'code' => 'required|google2fa:'.session()->get('spark:twofactor:secret')
+        ]);
+
+        Spark::interact(EnableTwoFactorAuth::class, [$request->user()]);
+
+        return $this->storeTwoFactorInformation($request);
+    }
+
+    /**
+     * Get the qr code rul.
+     *
+     * @param  string $email
+     * @param  string $secret
      * @return string
      */
-    protected function getQrCodeUrl($user)
+    protected function getQrUrl($email, $secret)
     {
         $company = isset(Spark::$details['vendor']) ? Spark::$details['vendor'] : url()->to('/');
 
-        return (new Google2FA)->getQRCodeGoogleUrl(
-            $company,
-            $user->email,
-            $user->google2fa_secret
-        );
+        return str_replace('200x200', '260x260', (new Google2FA)->getQRCodeGoogleUrl($company, $email, $secret));
     }
 }
