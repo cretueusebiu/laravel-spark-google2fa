@@ -10,7 +10,7 @@ This package replaces the default Two-Factor Authentication driver with [Google 
 
 - Add `Eusebiu\LaravelSparkGoogle2FA\Google2FAServiceProvider::class` to your `providers` array in `config/app.php`
 
-- Run `php artisan vendor:publish`
+- Run `php artisan vendor:publish --provider="Eusebiu\LaravelSparkGoogle2FA\Google2FAServiceProvider"`
 
 - Run `php artisan migrate`
 
