@@ -1,0 +1,14 @@
+{
+    "name": "eusebiu/laravel-spark-google2fa",
+    "description": "Google Authenticator support for Laravel Spark.",
+    "license": "MIT",
+    "type": "package",
+    "require": {
+        "pragmarx/google2fa": "^0.7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Eusebiu\\LaravelSparkGoogle2FA\\": "src/"
+        }
+    }
+}
