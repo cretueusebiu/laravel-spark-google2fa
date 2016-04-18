@@ -48,7 +48,7 @@ class Google2FAServiceProvider extends ServiceProvider
         });
 
         Spark::swap('VerifyTwoFactorAuthToken@handle', function ($user, $token) {
-            return Google2FA::verifyKey($user->google2fa_secret, $token);
+            return (new Google2FA)->verifyKey($user->google2fa_secret, $token);
         });
     }
 }

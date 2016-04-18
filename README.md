@@ -2,6 +2,8 @@
 
 This package replaces the default Two-Factor Authentication driver with [Google Authenticator](https://support.google.com/accounts/answer/1066447?hl=en). 
 
+![Demo](http://i.imgur.com/Lv77w5b.gif)
+
 ## Installation
 
 - Run `composer require eusebiu/laravel-spark-google2fa`
