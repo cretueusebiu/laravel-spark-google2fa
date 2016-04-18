@@ -13,3 +13,5 @@ This package replaces the default Two-Factor Authentication driver with [Google 
 - Run `php artisan migrate`
 
 - Edit `resources/views/vendor/spark/settings/security/modals/two-factor-reset-code.blade.php` and replace everything with `@include('google2fa::qr-code-modal')` or the contents of the [qr-code-modal.blade.php](resources/views/qr-code-modal.blade.php) file.
+
+Note: The country code and phone number under the user settings are no longer relevent and you can remove them.
