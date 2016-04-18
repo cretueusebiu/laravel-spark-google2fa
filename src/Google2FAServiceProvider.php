@@ -19,18 +19,30 @@ class Google2FAServiceProvider extends ServiceProvider
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'google2fa');
 
-        $this->publishes([
-            __DIR__.'/../migrations' => database_path('migrations'),
-        ], 'migrations');
-
-        $this->publishes([
-            __DIR__.'/../resources/assets/js/enable-two-factor-auth-google.js' =>
-            resource_path('assets/js/spark-components/settings/security/enable-two-factor-auth-google.js')
-        ], 'resources');
+        if ($this->app->runningInConsole()) {
+            $this->definePublishing();
+        }
 
         $this->defineRoutes();
 
         $this->registerValidator();
+    }
+
+    /**
+     * Define the publishable migrations and resources.
+     *
+     * @return void
+     */
+    protected function definePublishing()
+    {
+        $this->publishes([
+            __DIR__ . '/../migrations' => database_path('migrations'),
+        ], 'migrations');
+
+        $this->publishes([
+            __DIR__ . '/../resources/assets/js/enable-two-factor-auth-google.js' =>
+                resource_path('assets/js/spark-components/settings/security/enable-two-factor-auth-google.js')
+        ], 'resources');
     }
 
     /**
