@@ -34,18 +34,18 @@
 
             <div class="modal-footer">
                 <div class="pull-left">
-                    <button type="submit" class="btn btn-primary"
-                            :disabled="verifyForm.busy"
-                            @click.prevent="verify"
-                    >
-                        <span v-if="verifyForm.busy">
-                            <i class="fa fa-btn fa-spinner fa-spin"></i>Verifying
-                        </span>
-                        <span v-else>Verify</span>
-                    </button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
                 </div>
 
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary"
+                        :disabled="verifyForm.busy"
+                        @click.prevent="verify"
+                >
+                    <span v-if="verifyForm.busy">
+                        <i class="fa fa-btn fa-spinner fa-spin"></i>Verifying
+                    </span>
+                    <span v-else>Verify</span>
+                </button>
             </div>
         </div>
     </div>
