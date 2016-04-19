@@ -12,22 +12,18 @@
 
             <form class="form-horizontal" role="form">
                 <!-- Enable Button -->
-                <div class="form-group">
-                    <div class="col-md-offset-4 col-md-6">
-                        <button type="submit" class="btn btn-primary"
-                                @click.prevent="enable"
-                                :disabled="form.busy">
+                <button type="submit" class="btn btn-primary"
+                        @click.prevent="enable"
+                        :disabled="form.busy">
 
-                            <span v-if="form.busy">
-                                <i class="fa fa-btn fa-spinner fa-spin"></i>Enabling
-                            </span>
+                    <span v-if="form.busy">
+                        <i class="fa fa-btn fa-spinner fa-spin"></i>Enabling
+                    </span>
 
-                            <span v-else>
-                                Enable
-                            </span>
-                        </button>
-                    </div>
-                </div>
+                    <span v-else>
+                        Enable
+                    </span>
+                </button>
             </form>
         </div>
     </div>
