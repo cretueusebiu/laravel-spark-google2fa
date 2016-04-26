@@ -19,7 +19,9 @@
                         </div>
 
                         <div class="form-group" :class="{'has-error': verifyForm.errors.has('code')}">
-                            <input type="code" class="form-control" name="code" v-model="verifyForm.code" placeholder="Code">
+                            <input type="code" class="form-control" name="code" v-model="verifyForm.code" placeholder="Code"
+                                @keyup.enter="verify"
+                            >
                             <span class="help-block" v-show="verifyForm.errors.has('code')">
                                 @{{ verifyForm.errors.get('code') }}
                             </span>
