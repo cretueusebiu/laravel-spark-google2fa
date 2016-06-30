@@ -50,7 +50,7 @@ class TwoFactorAuthController extends Controller
      */
     protected function getQrUrl($email, $secret)
     {
-        $company = isset(Spark::$details['vendor']) ? Spark::$details['vendor'] : url()->to('/');
+        $company = isset(Spark::$details['vendor']) ? urlencode(Spark::$details['vendor']) : url()->to('/');
 
         return str_replace('200x200', '260x260', (new Google2FA)->getQRCodeGoogleUrl($company, $email, $secret));
     }
