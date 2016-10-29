@@ -47,7 +47,11 @@ class Google2FAServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../resources/assets/js/enable-two-factor-auth-google.js' =>
                 resource_path('assets/js/spark-components/settings/security/enable-two-factor-auth-google.js')
-        ], 'resources');
+        ], 'assets');
+
+        $this->publishes([
+            __DIR__.'/../resources/views' => resource_path('views/vendor/google2fa'),
+        ], 'views');
     }
 
     /**
