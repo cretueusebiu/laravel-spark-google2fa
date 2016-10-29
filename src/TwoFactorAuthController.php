@@ -5,6 +5,7 @@ namespace Eusebiu\LaravelSparkGoogle2FA;
 use Laravel\Spark\Spark;
 use Illuminate\Http\Request;
 use PragmaRX\Google2FA\Google2FA;
+use Laravel\Spark\Contracts\Interactions\Settings\Security\EnableTwoFactorAuth;
 use Laravel\Spark\Http\Controllers\Settings\Security\TwoFactorAuthController as Controller;
 
 class TwoFactorAuthController extends Controller
