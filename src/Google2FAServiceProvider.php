@@ -35,9 +35,14 @@ class Google2FAServiceProvider extends ServiceProvider
      */
     protected function definePublishing()
     {
-        $this->publishes([
-            __DIR__ . '/../migrations' => database_path('migrations'),
-        ], 'migrations');
+        if (! class_exists('AddUsersGoogle2faSecretColumn')) {
+            $timestamp = date('Y_m_d_His', time());
+
+            $this->publishes([
+                __DIR__.'/../migrations/add_users_google2fa_secret_column.php.stub' =>
+                    $this->app->databasePath().'/migrations/'.$timestamp.'_add_users_google2fa_secret_column.php',
+            ], 'migrations');
+        }
 
         $this->publishes([
             __DIR__ . '/../resources/assets/js/enable-two-factor-auth-google.js' =>
