@@ -37,8 +37,13 @@ module.exports = {
                 .then((code) => {
                     $('#modal-show-verify-qr-code').modal('hide');
 
-                    this.$dispatch('receivedTwoFactorResetCode', code);
-                    this.$dispatch('updateUser');
+                    if (window.Bus) {
+                        this.$parent.$emit('receivedTwoFactorResetCode', code);
+                        Bus.$emit('updateUser');
+                    } else {
+                        this.$dispatch('receivedTwoFactorResetCode', code);
+                        this.$dispatch('updateUser');
+                    }
                 });
         }
     }
