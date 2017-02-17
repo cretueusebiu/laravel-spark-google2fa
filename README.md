@@ -20,4 +20,4 @@ This package replaces the default Two-Factor Authentication driver with [Google 
 
 - Edit `resources/assets/js/spark-components/settings/security/enable-two-factor-auth.js` and replace `require('settings/security/enable-two-factor-auth')` with `require('./enable-two-factor-auth-google')`
 
-- Run `gulp`
+- Run `npm run dev`
