@@ -33,7 +33,7 @@ module.exports = {
          * Verify the code.
          */
         verify() {
-            Spark.post('/settings/two-factor-auth', this.verifyForm)
+            Spark.post('/settings/two-factor-auth-google', this.verifyForm)
                 .then((code) => {
                     $('#modal-show-verify-qr-code').modal('hide');
 

@@ -64,7 +64,7 @@ class Google2FAServiceProvider extends ServiceProvider
         if (! $this->app->routesAreCached()) {
             Route::group(['middleware' => 'web'], function ($router) {
                 $router->post('/settings/two-factor-auth-generate', TwoFactorAuthController::class.'@generateQrCode');
-                $router->post('/settings/two-factor-auth', TwoFactorAuthController::class.'@enableTwoFactor');
+                $router->post('/settings/two-factor-auth-google', TwoFactorAuthController::class.'@enableTwoFactor');
             });
         }
     }
