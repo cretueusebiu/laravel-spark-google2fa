@@ -1,6 +1,6 @@
 # Google Authenticator support for Laravel Spark
 
-This package replaces the default Two-Factor Authentication driver with [Google Authenticator](https://support.google.com/accounts/answer/1066447?hl=en). 
+This package replaces the default Two-Factor Authentication driver with [Google Authenticator](https://support.google.com/accounts/answer/1066447?hl=en).
 
 ![Demo](http://i.imgur.com/WQKx5nS.gif)
 
@@ -9,6 +9,8 @@ This package replaces the default Two-Factor Authentication driver with [Google 
 - Run `composer require eusebiu/laravel-spark-google2fa`
 
 - Add `Eusebiu\LaravelSparkGoogle2FA\Google2FAServiceProvider::class` to your `providers` array in `config/app.php` after `SparkServiceProvider`.
+
+- Run `php artisan config:clear`
 
 - Run `php artisan vendor:publish --provider="Eusebiu\LaravelSparkGoogle2FA\Google2FAServiceProvider" --tag=migrations --tag=assets`
 
