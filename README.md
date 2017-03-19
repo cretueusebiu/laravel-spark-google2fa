@@ -23,3 +23,13 @@ This package replaces the default Two-Factor Authentication driver with [Google 
 - Edit `resources/assets/js/spark-components/settings/security/enable-two-factor-auth.js` and replace `require('settings/security/enable-two-factor-auth')` with `require('./enable-two-factor-auth-google')`
 
 - Run `npm run dev`
+
+## Customise the display name
+
+The display name in the authenticator app is chosen from the ```$details``` section in your ```SparkServiceProvider``` file.
+
+The following order is used, the first variable that's found will be the display name.
+
+1. ```$details['2fa_name']``` (not present by default)
+2. ```$details['vendor']``` (present by default)
+3. the domain name (safe fallback)
