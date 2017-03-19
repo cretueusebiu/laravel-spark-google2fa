@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.1.1 - 2017-03-15
+## 1.1.1 - 2017-03-19
 
 - Added support for a custom Display Name in the authenticator app. ([#14](https://github.com/cretueusebiu/laravel-spark-google2fa/pull/14))
 
