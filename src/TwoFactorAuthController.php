@@ -51,7 +51,18 @@ class TwoFactorAuthController extends Controller
      */
     protected function getQrUrl($email, $secret)
     {
-        $company = isset(Spark::$details['vendor']) ? urlencode(Spark::$details['vendor']) : url()->to('/');
+        # If the user defined a custom "2fa_name" detail, use that
+        if (isset(Spark::$details['2fa_name'])) {
+            $company = urlencode(Spark::$details['2fa_name']);
+        }
+        # Otherwise, see if the Vendor is filled in
+        elseif (isset(Spark::$details['vendor'])) {
+            $company = urlencode(Spark::$details['vendor']);
+        }
+        # If it isn't, use the domain name as 2FA name
+        else {
+            $company = url()->to('/');
+        }
 
         return str_replace('200x200', '260x260', (new Google2FA)->getQRCodeGoogleUrl($company, $email, $secret));
     }
