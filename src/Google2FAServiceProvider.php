@@ -17,6 +17,8 @@ class Google2FAServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->loadMigrationsFrom(__DIR__.'/../migrations');
+
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'google2fa');
 
         if ($this->app->runningInConsole()) {
@@ -24,8 +26,6 @@ class Google2FAServiceProvider extends ServiceProvider
         }
 
         $this->defineRoutes();
-
-        $this->registerValidator();
     }
 
     /**
@@ -35,22 +35,14 @@ class Google2FAServiceProvider extends ServiceProvider
      */
     protected function definePublishing()
     {
-        if (! class_exists('AddUsersGoogle2faSecretColumn')) {
-            $timestamp = date('Y_m_d_His', time());
-
-            $this->publishes([
-                __DIR__.'/../migrations/add_users_google2fa_secret_column.php.stub' =>
-                    $this->app->databasePath().'/migrations/'.$timestamp.'_add_users_google2fa_secret_column.php',
-            ], 'migrations');
-        }
-
         $this->publishes([
-            __DIR__ . '/../resources/assets/js/enable-two-factor-auth-google.js' =>
-                resource_path('assets/js/spark-components/settings/security/enable-two-factor-auth-google.js')
+            __DIR__ . '/../resources/assets/js/enable-two-factor-auth.js' =>
+                resource_path('assets/js/spark-components/settings/security/enable-two-factor-auth.js')
         ], 'assets');
 
         $this->publishes([
-            __DIR__.'/../resources/views' => resource_path('views/vendor/google2fa'),
+            __DIR__.'/../resources/views/enable-two-factor-auth.blade.php' =>
+                resource_path('views/vendor/spark/settings/security/enable-two-factor-auth.blade.php'),
         ], 'views');
     }
 
@@ -62,23 +54,11 @@ class Google2FAServiceProvider extends ServiceProvider
     protected function defineRoutes()
     {
         if (! $this->app->routesAreCached()) {
-            Route::group(['middleware' => 'web'], function ($router) {
-                $router->post('/settings/two-factor-auth-generate', TwoFactorAuthController::class.'@generateQrCode');
-                $router->post('/settings/two-factor-auth-google', TwoFactorAuthController::class.'@enableTwoFactor');
+            Route::group(['middleware' => 'web'], function () {
+                Route::post('/settings/two-factor-auth-generate', TwoFactorAuthController::class.'@generate');
+                Route::post('/settings/two-factor-auth-google', TwoFactorAuthController::class.'@enable2fa');
             });
         }
-    }
-
-    /**
-     * Register the custom validator.
-     *
-     * @return void
-     */
-    protected function registerValidator()
-    {
-        Validator::extend('google2fa', function ($attribute, $value, $parameters) {
-            return (new Google2FA)->verifyKey($parameters[0], $value);
-        }, 'The code is invalid.');
     }
 
     /**
@@ -104,8 +84,8 @@ class Google2FAServiceProvider extends ServiceProvider
             return $user;
         });
 
-        Spark::swap('VerifyTwoFactorAuthToken@handle', function ($user, $token) {
-            return (new Google2FA)->verifyKey($user->google2fa_secret, $token);
+        Spark::swap('VerifyTwoFactorAuthToken@handle', function ($user, $code) {
+            return (new Google2FA)->verifyKey($user->google2fa_secret, $code);
         });
     }
 }

@@ -1,34 +1,65 @@
 <spark-enable-two-factor-auth :user="user" inline-template>
-    <div>
-        <div class="panel panel-default">
-            <div class="panel-heading">Two-Factor Authentication</div>
+  <div class="card card-default">
+    <div class="card-header">{{__('Two-Factor Authentication')}}</div>
 
-            <div class="panel-body">
-                <!-- Information Message -->
-                <div class="alert alert-info">
-                    In order to use two-factor authentication, you <strong>must</strong> install the
-                    <strong><a href="https://support.google.com/accounts/answer/1066447?hl=en" target="_blank">Google Authenticator</a></strong> application
-                    on your smartphone. Google Authenticator is available for <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2&hl=en" target="_blank">Android</a> and <a href="https://itunes.apple.com/en/app/google-authenticator/id388497605?mt=8" target="_blank">iOS</a>.
-                </div>
+    <div class="card-body">
+      <div class="alert alert-info">
+        {!! __('In order to use two-factor authentication, you must install install :authyLink or :authenticatorLink on your smartphone.', [
+          'authyLink' => '<b><a href="https://authy.com/download/" target="_blank">Authy</a></b>',
+          'authenticatorLink' => '<b><a href="https://support.google.com/accounts/answer/1066447" target="_blank">Google Authenticator</a></b>',
+        ]) !!}
+      </div>
 
-                <form class="form-horizontal" role="form">
-                    <!-- Enable Button -->
-                    <button type="submit" class="btn btn-primary"
-                            @click.prevent="enable"
-                            :disabled="form.busy">
-
-                        <span v-if="form.busy">
-                            <i class="fa fa-btn fa-spinner fa-spin"></i>Enabling
-                        </span>
-
-                        <span v-else>
-                            Enable
-                        </span>
-                    </button>
-                </form>
-            </div>
-        </div>
-
-        @include('google2fa::verify-qr-code-modal')
+      <button @click="generate" type="button" class="btn btn-primary" :disabled="generating">
+        {{__('Set up two-factor authentication')}}
+      </button>
     </div>
+
+    {{-- Verification Modal --}}
+    <div class="modal" ref="modal" tabindex="-1" role="dialog" data-backdrop="static">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              {{ __('Connect your application') }}
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            {{ __('Scan the image below with the two-factor authentication app on your phone.') }}
+
+            <div class="text-center mb-2">
+              <img :src="qrcode">
+            </div>
+
+            <div v-if="showSecret" class="mb-3">
+              {!! __('Select manual entry on your app and enter: :code', ['code' => '@{{ secret }}']) !!}
+            </div>
+            <div v-else class="mb-3">
+              {!! __('Having trouble scanning the code? :linkOpen Try this instead. :linkClose', [
+                'linkOpen' => '<a @click.prevent="showSecret = true" href="#">',
+                'linkClose' => '</a>',
+              ]) !!}
+            </div>
+
+            <form @submit.prevent="enable" class="d-flex">
+              <input v-model="form.code" type="text" name="code" class="form-control"
+                :class="{ 'is-invalid': form.errors.has('code') }" autocomplete="off"
+                maxlength="6" required placeholder="{{ __('Enter the code from the app') }}">
+
+              <button type="submit" class="btn btn-primary ml-3" :disabled="form.code.length < 6 || form.busy">
+                {{ __('Enable') }}
+              </button>
+            </form>
+
+            <div v-if="form.errors.has('code')" class="invalid-feedback d-block">
+              @{{ form.errors.get('code') }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </spark-enable-two-factor-auth>
