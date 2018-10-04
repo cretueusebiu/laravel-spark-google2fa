@@ -35,7 +35,7 @@ class TwoFactorAuthController extends Controller
     public function generate(Request $request)
     {
         $this->g2fa->setAllowInsecureCallToGoogleApis(true);
-        
+
         $secret = $this->g2fa->generateSecretKey();
 
         $request->session()->put('spark:twofactor:secret', $secret);
