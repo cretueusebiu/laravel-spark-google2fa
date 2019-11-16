@@ -3,7 +3,7 @@
 namespace Eusebiu\LaravelSparkGoogle2FA;
 
 use Laravel\Spark\Spark;
-use PragmaRX\Google2FA\Google2FA;
+use PragmaRX\Google2FAQRCode\Google2FA;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
