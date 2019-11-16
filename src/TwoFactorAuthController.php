@@ -81,6 +81,5 @@ class TwoFactorAuthController extends Controller
                     url()->to('/');
 
         return $this->g2fa->getQRCodeInline(urlencode($company), $email, $secret, 260);
-
     }
 }
