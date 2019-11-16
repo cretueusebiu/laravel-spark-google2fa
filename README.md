@@ -1,4 +1,4 @@
-# Google Authenticator for Laravel Spark 6
+# Google Authenticator for Laravel Spark 9
 
 This package replaces the default two-factor authentication driver with [Google Authenticator](https://support.google.com/accounts/answer/1066447?hl=en).
 
