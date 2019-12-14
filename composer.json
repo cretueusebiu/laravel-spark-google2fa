@@ -4,7 +4,7 @@
     "license": "MIT",
     "type": "package",
     "require": {
-        "pragmarx/google2fa": "^2.0"
+        "pragmarx/google2fa-qrcode": "^1.0"
     },
     "autoload": {
         "psr-4": {
